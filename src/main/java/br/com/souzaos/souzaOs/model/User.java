@@ -33,6 +33,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-
     private boolean active = true;
+
+    @Column(nullable = false)
+    private String tenantId;
 }

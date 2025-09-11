@@ -1,16 +1,23 @@
 package br.com.souzaos.souzaOs.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Filter;
+
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "WorkOrders")
+@Table(name = "work_orders")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
 public class WorkOrder {
 
     @Id
@@ -35,8 +42,10 @@ public class WorkOrder {
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
-    // RELACIONAMENTO COM CLIENT
+    @Column(nullable = false, name = "tenant_id")
+    private String tenantId;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client; // singular para bater com mappedBy
+    private Client client;
 }

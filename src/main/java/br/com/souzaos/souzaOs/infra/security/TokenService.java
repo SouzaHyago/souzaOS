@@ -22,12 +22,12 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            String token = JWT.create()
+            return JWT.create()
                 .withIssuer("login-auth-api")
                 .withSubject(user.getEmail())
-                .withExpiresAt(this.generateEpirationDate())
+                .withClaim("tenantId", user.getId())
+                .withExpiresAt(this.generateExpirationDate())
                 .sign(algorithm);
-            return token;
         } catch(JWTCreationException exception) {
             throw new RuntimeException("Error while authenticating");
         }
@@ -47,7 +47,7 @@ public class TokenService {
         }
     }
 
-    private Instant  generateEpirationDate(){
+    private Instant  generateExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-3"));
     }
 
