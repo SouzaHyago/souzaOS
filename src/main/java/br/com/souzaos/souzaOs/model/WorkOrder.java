@@ -12,13 +12,12 @@ import org.hibernate.annotations.Filter;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "work_orders")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-public class WorkOrder {
+public class WorkOrder extends MultiTenantEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +41,6 @@ public class WorkOrder {
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
-    @Column(nullable = false, name = "tenant_id")
-    private String tenantId;
 
     @ManyToOne
     @JoinColumn(name = "client_id")

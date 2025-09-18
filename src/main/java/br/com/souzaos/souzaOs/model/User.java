@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Table(name  = "users")
 @Getter
@@ -36,5 +38,5 @@ public class User {
     private boolean active = true;
 
     @Column(nullable = false)
-    private String tenantId;
+    private String tenantId = UUID.randomUUID().toString();
 }

@@ -17,20 +17,19 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class TenantFilter extends OncePerRequestFilter {
+
     private final EntityManager entityManager;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && authentication.getPrincipal() instanceof User user) {
+        if(authentication != null && authentication.getPrincipal() instanceof User user){
             Session session = entityManager.unwrap(Session.class);
             session.enableFilter("tenantFilter").setParameter("tenantId", user.getTenantId());
         }
 
         filterChain.doFilter(request, response);
     }
-
 }

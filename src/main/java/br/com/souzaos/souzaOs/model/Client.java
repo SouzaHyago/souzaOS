@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-public class Client {
+public class Client extends MultiTenantEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,11 +40,9 @@ public class Client {
     private String phoneNumber;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @Column(nullable = false, name = "tenant_id")
-    private String tenantId;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkOrder> workOrders;
